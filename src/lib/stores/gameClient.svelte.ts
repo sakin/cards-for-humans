@@ -1,9 +1,8 @@
 import { Client } from 'boardgame.io/client';
-import { CardsForHumans } from '$lib/game/CardsForHumans.js';
-import type { CardsForHumansState } from '$lib/game/types.js';
+import type { Game } from 'boardgame.io';
 
-export function createGameClient() {
-	const client = Client<CardsForHumansState>({ game: CardsForHumans, debug: false });
+export function createGameClient<G extends object>(game: Game<G>) {
+	const client = Client<G>({ game, debug: false });
 	type GameState = ReturnType<typeof client.getState>;
 	let gameState = $state<GameState>(null);
 
