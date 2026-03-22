@@ -1,6 +1,6 @@
 import type { Game, Move } from 'boardgame.io';
 import { INVALID_MOVE } from 'boardgame.io/core';
-import { createTractorDeck, isJoker } from '$lib/shared/cards.js';
+import { createTractorDeck } from '$lib/shared/cards.js';
 import type { Card, Suit } from '$lib/shared/cards.js';
 import type { TractorState } from './types.js';
 
@@ -153,14 +153,12 @@ export const Tractor: Game<TractorState> = {
 		const allHandsEmpty = Object.values(G.hands).every((h) => h.length === 0);
 		if (!allHandsEmpty) return undefined;
 
-		// Count points captured by the non-banker team
-		// Point cards: 5=5pts, 10=10pts, K=10pts
-		const nonBankerTeam = Object.keys(G.tricksWon).filter(
-			(id) => !G.bankerTeam.includes(id as never)
-		);
-		const _ = nonBankerTeam; // scoring logic would go here
-		return { winner: G.bankerTeam[0] }; // simplified
+		// TODO: tally point cards (5=5pts, 10/K=10pts) captured by non-banker team
+		// const nonBankerTeam = Object.keys(G.tricksWon).filter(
+		//   (id) => !(G.bankerTeam as string[]).includes(id)
+		// );
+		return { winner: G.bankerTeam[0] }; // simplified until scoring is implemented
 	}
 };
 
-export { KITTY_SIZE, CARDS_PER_PLAYER, isJoker };
+export { KITTY_SIZE, CARDS_PER_PLAYER };

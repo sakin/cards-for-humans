@@ -5,8 +5,7 @@
 	let { data }: { data: PageData } = $props();
 
 	const { state, moves } = createGameClient(data.game);
-
-	const _ = moves; // moves will be used by game-specific UI components
+	// TODO: pass moves to game-specific UI components once they exist
 </script>
 
 {#if state === null}

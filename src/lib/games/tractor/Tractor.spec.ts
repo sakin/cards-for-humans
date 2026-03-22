@@ -102,12 +102,13 @@ describe('Tractor declaration phase', () => {
 		expect(client.getState()!.ctx.phase).toBe('declaration');
 	});
 
-	it('rejects a second declaration once trump is set', () => {
+	it('trump suit persists after the declaration phase ends', () => {
 		const client = makeClient();
 		client.moves.declareTrump('spades');
-		// We are now in kitty phase, so a second declareTrump has no move to call
-		// The phase changed — verify trump is still 'spades'
+		// Phase has moved to kitty — declareTrump is no longer available,
+		// but the declared suit must still be set in state
 		expect(client.getState()!.G.trumpSuit).toBe('spades');
+		expect(client.getState()!.ctx.phase).toBe('kitty');
 	});
 });
 

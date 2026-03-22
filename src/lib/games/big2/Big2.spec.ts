@@ -244,36 +244,34 @@ describe('Big2 playCards move', () => {
 		expect(client.getState()!.G.lastPlay).toBeNull();
 	});
 
-	it('rejects a lower single than the current last play', () => {
+	it('rejects a single that does not beat the last play', () => {
 		const client = makeClient();
 		const { G, ctx } = client.getState()!;
 
-		// First player plays their highest-value card (we'll pick one and play it)
+		// First player plays their highest card — guarantees second player has only lower cards
 		const firstPlayer = ctx.currentPlayer;
-		// Play the 3♦ (guaranteed to be in their hand as the starting player)
-		const threeDiamonds = G.hands[firstPlayer].find(
-			(c) => c.rank === '3' && c.suit === 'diamonds'
-		)!;
-		client.moves.playCards([threeDiamonds.id]);
+		const highestFirst = G.hands[firstPlayer].reduce((a, b) =>
+			cardValue(a) > cardValue(b) ? a : b
+		);
+		client.moves.playCards([highestFirst.id]);
 
-		// Second player tries to play a card that is lower — find the lowest card in their hand
+		// Second player picks their lowest card
 		const secondPlayer = client.getState()!.ctx.currentPlayer;
 		const secondHand = client.getState()!.G.hands[secondPlayer];
-		// Sort by cardValue and pick the lowest; if it beats 3♦ then test is moot,
-		// but 3♦ is the absolute minimum so any equal-or-lower card fails
-		const lowestCard = secondHand.reduce((a, b) => (cardValue(a) < cardValue(b) ? a : b));
+		const lowestSecond = secondHand.reduce((a, b) => (cardValue(a) < cardValue(b) ? a : b));
 
-		// 3♦ has value 0, so no card can be lower — so we need to pick a card equal to or
-		// try a move with an empty array (invalid combination) as a proxy for "can't beat"
+		// The lowest card in any other player's hand must be ≤ the highest card played,
+		// so it cannot beat the last play (and if they happen to be equal value, still can't
+		// beat because a card can't beat itself).
 		const stateBefore = client.getState()!.G;
-		client.moves.playCards([]); // empty array is always invalid
-		expect(client.getState()!.G.hands[secondPlayer]).toEqual(stateBefore.hands[secondPlayer]);
-
-		// Also verify that playing a lower single outright fails
-		// The only card lower-or-equal to 3♦ would be 3♦ itself, which isn't in secondPlayer's hand
-		// So let's assert: playing any single that doesn't beat last play is rejected
-		// We test this by playing a card and checking INVALID_MOVE rejects state change
-		const _ = lowestCard; // referenced to avoid unused-var lint
+		if (cardValue(lowestSecond) <= cardValue(highestFirst)) {
+			client.moves.playCards([lowestSecond.id]);
+			// State must be unchanged — the move was rejected
+			expect(client.getState()!.G.hands[secondPlayer]).toHaveLength(
+				stateBefore.hands[secondPlayer].length
+			);
+			expect(client.getState()!.G.lastPlay?.cards[0].id).toBe(highestFirst.id);
+		}
 	});
 });
 
