@@ -174,6 +174,22 @@ describe('checkWinner', () => {
 
 // ─── Integration tests via boardgame.io Client ────────────────────────────────
 
+describe('Big2 game configuration', () => {
+	it('should be configured for exactly 4 players', () => {
+		expect(Big2.minPlayers).toBe(4);
+		expect(Big2.maxPlayers).toBe(4);
+	});
+
+	it('should create a game with 4 players by default', () => {
+		const client = makeClient(); // Uses default numPlayers: 4
+		const state = client.getState()!;
+
+		expect(state.ctx.numPlayers).toBe(4);
+		expect(state.ctx.playOrder).toHaveLength(4);
+		expect(Object.keys(state.G.hands)).toHaveLength(4);
+	});
+});
+
 describe('Big2 setup', () => {
 	it('deals 13 cards to each of 4 players', () => {
 		const client = makeClient();

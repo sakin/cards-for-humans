@@ -141,6 +141,8 @@ const pass: Move<Big2State> = ({ G, ctx, events }) => {
 
 export const Big2: Game<Big2State> = {
 	name: 'big2',
+	minPlayers: 4,
+	maxPlayers: 4,
 
 	setup: ({ ctx, random }) => {
 		const deck = random.Shuffle(createStandardDeck());

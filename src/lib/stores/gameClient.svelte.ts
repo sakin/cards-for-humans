@@ -2,7 +2,11 @@ import { Client } from 'boardgame.io/client';
 import type { Game } from 'boardgame.io';
 
 export function createGameClient<G extends object>(game: Game<G>) {
-	const client = Client<G>({ game, debug: false });
+	const client = Client<G>({
+		game,
+		numPlayers: game.minPlayers || game.maxPlayers || 2,
+		debug: false
+	});
 	type GameState = ReturnType<typeof client.getState>;
 	let gameState = $state<GameState>(null);
 
