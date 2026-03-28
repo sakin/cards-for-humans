@@ -10,25 +10,25 @@ Cards for Humans is a SvelteKit application for playing card games using boardga
 
 ### Running the Application
 ```bash
-npm run dev              # Start development server
-npm run dev -- --open    # Start dev server and open browser
-npm run build            # Create production build
-npm run preview          # Preview production build
+bun run dev              # Start development server
+bun run dev -- --open    # Start dev server and open browser
+bun run build            # Create production build
+bun run preview          # Preview production build
 ```
 
 ### Testing
 ```bash
-npm run test             # Run all tests (unit + e2e)
-npm run test:unit        # Run unit tests with Vitest
-npm run test:e2e         # Run Playwright e2e tests
-npm run check            # Type check with svelte-check
-npm run check:watch      # Type check in watch mode
+bun run test             # Run all tests (unit + e2e)
+bun run test:unit        # Run unit tests with Vitest
+bun run test:e2e         # Run Playwright e2e tests
+bun run check            # Type check with svelte-check
+bun run check:watch      # Type check in watch mode
 ```
 
 ### Code Quality
 ```bash
-npm run lint             # Run Prettier and ESLint checks
-npm run format           # Auto-format with Prettier
+bun run lint             # Run Prettier and ESLint checks
+bun run format           # Auto-format with Prettier
 ```
 
 ## Architecture
@@ -105,3 +105,4 @@ Games use boardgame.io's immutable state updates:
 - **Styling**: Tailwind CSS 4
 - **Type Checking**: TypeScript with strict mode
 - **Linting**: ESLint with typescript-eslint and eslint-plugin-svelte
+- **Package Manager**: Bun
