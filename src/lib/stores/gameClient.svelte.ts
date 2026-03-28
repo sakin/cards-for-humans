@@ -22,5 +22,6 @@ export function createGameClient<G extends object>(game: Game<G>) {
 			return gameState;
 		},
 		moves: client.moves,
+		reset: () => client.reset(),
 	};
 }

@@ -7,5 +7,5 @@ export const ssr = false;
 export const load: PageLoad = ({ params }) => {
 	const { gameId } = params;
 	if (!(gameId in games)) error(404, `Game "${gameId}" not found`);
-	return { gameId, game: games[gameId] };
+	return { gameId, game: games[gameId as keyof typeof games] };
 };

@@ -1,14 +1,19 @@
 <script lang="ts">
 	import { createGameClient } from '$lib/stores/gameClient.svelte.js';
+	import Big2Game from '$lib/components/games/big2/Big2Game.svelte';
 	import type { PageData } from './$types.js';
 
 	let { data }: { data: PageData } = $props();
 
-	const { state, moves } = createGameClient(data.game);
-	// TODO: pass moves to game-specific UI components once they exist
+	const client = $derived(createGameClient(data.game as any));
+	const state = $derived(client.state);
+	const moves = $derived(client.moves);
+	const reset = $derived(client.reset);
 </script>
 
-{#if state === null}
+{#if data.gameId === 'big2'}
+	<Big2Game gameState={state as any} moves={moves as any} onReset={reset} />
+{:else if state === null}
 	<p>Loading {data.gameId}…</p>
 {:else}
 	<header>
