@@ -3,7 +3,7 @@
 	import type { StandardCard } from '$lib/shared/cards.js';
 	import PlayerHand from './PlayerHand.svelte';
 	import PlayArea from './PlayArea.svelte';
-	import OpponentIndicator from './OpponentIndicator.svelte';
+	import OpponentIndicator from '$lib/components/shared/OpponentIndicator.svelte';
 	import ActionBar from './ActionBar.svelte';
 	import GameEndDialog from './GameEndDialog.svelte';
 	import { validateSelection, canBeatLastPlay } from './utils.js';
