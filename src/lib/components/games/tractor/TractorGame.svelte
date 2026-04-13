@@ -56,7 +56,8 @@
 		if (!gameState || gameEnded || isPlayerTurn) return;
 
 		if (phase === 'declaration') {
-			const t = setTimeout(() => moves.declareTrump(makeAIDeclaration()), 800);
+			const hand = gameState.G.hands[currentPlayer] as Card[];
+			const t = setTimeout(() => moves.declareTrump(makeAIDeclaration(hand)), 800);
 			return () => clearTimeout(t);
 		}
 
@@ -69,7 +70,7 @@
 			} else if (G.buried.length === 0) {
 				// Kitty taken, now bury
 				const hand = G.hands[currentPlayer] as Card[];
-				const t = setTimeout(() => moves.buryCards(makeAIBuryCards(hand)), 500);
+				const t = setTimeout(() => moves.buryCards(makeAIBuryCards(hand, G.trumpSuit, G.trumpRank)), 500);
 				return () => clearTimeout(t);
 			}
 			return;
