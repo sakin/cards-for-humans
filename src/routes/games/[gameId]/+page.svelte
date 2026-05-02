@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { createGameClient } from '$lib/stores/gameClient.svelte.js';
 	import Big2Game from '$lib/components/games/big2/Big2Game.svelte';
+	import TractorGame from '$lib/components/games/tractor/TractorGame.svelte';
 	import type { PageData } from './$types.js';
 
 	let { data }: { data: PageData } = $props();
@@ -13,6 +14,8 @@
 
 {#if data.gameId === 'big2'}
 	<Big2Game gameState={state as any} moves={moves as any} onReset={reset} />
+{:else if data.gameId === 'tractor'}
+	<TractorGame gameState={state as any} moves={moves as any} onReset={reset} />
 {:else if state === null}
 	<p>Loading {data.gameId}…</p>
 {:else}

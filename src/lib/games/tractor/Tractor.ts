@@ -104,6 +104,8 @@ const followTrick: Move<TractorState> = ({ G, ctx, events }, cardIds: string[]) 
 
 export const Tractor: Game<TractorState> = {
 	name: 'tractor',
+	minPlayers: 4,
+	maxPlayers: 4,
 
 	setup: ({ ctx, random }) => {
 		const deck = random.Shuffle(createTractorDeck());
